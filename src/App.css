@@ -1,0 +1,59 @@
+.App{
+  height: 100vh;  
+  font-family: Arial, Helvetica, sans-serif;
+}
+.calender{
+  --width:70%;
+  --height:80%;
+  width:var(--width);
+  height: var(--height);
+  display: flex;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  border-top: 1px solid #dadce0;
+  border-left: 1px solid #dadce0;
+  box-sizing: border-box;
+}
+
+.cell{
+  box-sizing: border-box;
+  width:calc(100%/7);
+  height: calc(100%/5);
+  border-right: 1px solid #dadce0;
+  border-bottom: 1px solid #dadce0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.date{
+  font-weight: 600;
+}
+
+.calendar-header{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 10%;
+  gap:1rem;
+  border-bottom: 1px solid #dadce0;
+}
+
+
+.content{
+  display: flex;
+  height: 100%;
+}
+
+.calendar-sidebar{
+  flex-basis: 20%;
+}
+.calender{
+  flex-basis: 80%;
+}
+
+@media screen and (max-width: 768px) {
+  .cell{
+    height: 10%;
+  }
+}
