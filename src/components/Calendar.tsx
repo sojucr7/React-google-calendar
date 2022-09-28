@@ -1,129 +1,115 @@
 import React from 'react';
+import styled from 'styled-components'
 function GoogleCalender(){
-
+    const Calender = styled.div`
+        --width:70%;
+        --height:80%;
+        width:var(--width);
+        height: var(--height);
+        display: flex;
+        align-content: flex-start;
+        flex-wrap: wrap;
+        border-top: 1px solid #dadce0;
+        border-left: 1px solid #dadce0;
+        box-sizing: border-box;  
+        flex-basis: 80%;
+        @media (max-width: 768px) {
+            flex-basis: 100%;
+        }
+    `
+    const Cell =styled.div`
+        box-sizing: border-box;
+        width:calc(100%/7);
+        height: calc(100%/5);
+        border-right: 1px solid #dadce0;
+        border-bottom: 1px solid #dadce0;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        
+    `
+    const DateSpan=styled.span`
+        font-weight: 600;
+    `
     return (
         <>     
         
-        <div className="calender">            
-            <div className="cell">
+        <Calender>            
+            <Cell>
                 <span className='day'>Sun</span>
-                <span className='date'>28</span>
-            </div>
-            <div className="cell">
+                <DateSpan>28</DateSpan>
+            </Cell>
+            <Cell>
                 <span className='day'>Mon</span>
-                <span className='date'>29</span>
-            </div>
-            <div className="cell">
+                <DateSpan>28</DateSpan>
+            </Cell>
+            <Cell>
                 <span className='day'>Tue</span>
-                <span className='date'>30</span>
-            </div>
-            <div className="cell">
+                <DateSpan>28</DateSpan>
+            </Cell>
+            <Cell>
                 <span className='day'>Wen</span>
-                <span className='date'>31</span>
-            </div>
-            <div className="cell">
+                <DateSpan>28</DateSpan>
+            </Cell>
+            <Cell>
                 <span className='day'>Thu</span>
-                <span className='date'>1</span>
-            </div>
-            <div className="cell">
+                <DateSpan>28</DateSpan>
+            </Cell>
+            <Cell>
                 <span className='day'>Fri</span>
-                <span className='date'>2</span>
-            </div>
-            <div className="cell">
+                <DateSpan>28</DateSpan>
+            </Cell>
+            <Cell>
                 <span className='day'>Sat</span>
-                <span className='date'>3</span>
-            </div>
+                <DateSpan>28</DateSpan>
+            </Cell>
 
 
-            <div className="cell">
-                <span className='date'>4</span>
-            </div>
-            <div className="cell">
-                <span className='date'>5</span>
-            </div>
-            <div className="cell">
-                <span className='date'>6</span>
-            </div>
-            <div className="cell">
-                <span className='date'>7</span>
-            </div>
-            <div className="cell">
-                <span className='date'>8</span>
-            </div>
-            <div className="cell">
-                <span className='date'>9</span>
-            </div>
-            <div className="cell">
-                <span className='date'>10</span>
-            </div>
+            <Cell>
+            <DateSpan>28</DateSpan>
+            </Cell>
+            <Cell>
+            <DateSpan>28</DateSpan>
+            </Cell>
+            <Cell>
+            <DateSpan>28</DateSpan>
+            </Cell>
+            <Cell>
+            <DateSpan>28</DateSpan>
+            </Cell>
+            <Cell>
+            <DateSpan>28</DateSpan>
+            </Cell>
+            <Cell>
+            <DateSpan>28</DateSpan>
+            </Cell>
+            <Cell>
+            <DateSpan>28</DateSpan>
+            </Cell>
 
 
-            <div className="cell">
-                <span className='date'>11</span>
-            </div>
-            <div className="cell">
-                <span className='date'>12</span>
-            </div>
-            <div className="cell">
-                <span className='date'>13</span>
-            </div>
-            <div className="cell">
-                <span className='date'>14</span>
-            </div>
-            <div className="cell">
-                <span className='date'>15</span>
-            </div>
-            <div className="cell">
-                <span className='date'>16</span>
-            </div>
-            <div className="cell">
-                <span className='date'>17</span>
-            </div>
-
-            <div className="cell">
-                <span className='date'>18</span>
-            </div>
-            <div className="cell">
-                <span className='date'>19</span>
-            </div>
-            <div className="cell">
-                <span className='date'>20</span>
-            </div>
-            <div className="cell">
-                <span className='date'>21</span>
-            </div>
-            <div className="cell">
-                <span className='date'>22</span>
-            </div>
-            <div className="cell">
-                <span className='date'>23</span>
-            </div>
-            <div className="cell">
-                <span className='date'>24</span>
-            </div>
-
-            <div className="cell">
-                <span className='date'>25</span>
-            </div>
-            <div className="cell">
-                <span className='date'>26</span>
-            </div>
-            <div className="cell">
-                <span className='date'>27</span>
-            </div>
-            <div className="cell">
-                <span className='date'>28</span>
-            </div>
-            <div className="cell">
-                <span className='date'>29</span>
-            </div>
-            <div className="cell">
-                <span className='date'>30</span>
-            </div>
-            <div className="cell">
-                <span className='date'>31</span>
-            </div>
-        </div>
+            <Cell>
+            <DateSpan>28</DateSpan>
+            </Cell>
+            <Cell>
+            <DateSpan>28</DateSpan>
+            </Cell>
+            <Cell>
+            <DateSpan>28</DateSpan>
+            </Cell>
+            <Cell>
+            <DateSpan>28</DateSpan>
+            </Cell>
+            <Cell>
+            <DateSpan>28</DateSpan>
+            </Cell>
+            <Cell>
+            <DateSpan>28</DateSpan>
+            </Cell>
+            <Cell>
+            <DateSpan>28</DateSpan>
+            </Cell>
+        </Calender>
         </>
     )
 
