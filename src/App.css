@@ -1,0 +1,7 @@
+.prev,.next{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    padding: 0px 10px;
+    user-select: none;
+}

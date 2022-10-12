@@ -1,24 +1,29 @@
 import React from 'react';
 import styled from 'styled-components'
-function CalendarHeader(){
-    const CalendarHeader=styled.div`
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        height: 10%;
-        gap:1rem;
-        border-bottom: 1px solid #dadce0;
-        box-sizing:border-box;
-    `
+
+const CalendarHeaderStyle=styled.div`
+display: flex;
+justify-content: flex-start;
+align-items: center;
+height: 10%;
+gap:1rem;
+border-bottom: 1px solid #dadce0;
+box-sizing:border-box;
+`;
+function CalendarHeader({date,prevHandler,nextHandler}:{
+    date:string,
+    prevHandler:()=>void,
+    nextHandler:()=>void
+}){
+
     return (
-        <CalendarHeader>
-            <button>TODO</button>
+        <CalendarHeaderStyle>
              <div className='logo'>Calendar</div>
              <div className='navigation-container'>
-                <span className="prev">&lt;</span>
-                <span className="next">&gt;</span>
+                <span className="prev" onClick={prevHandler}>&lt;</span>
+                <span className="next" onClick={nextHandler}>&gt;</span>
              </div>
-        </CalendarHeader>
+        </CalendarHeaderStyle>
     )
 
 }

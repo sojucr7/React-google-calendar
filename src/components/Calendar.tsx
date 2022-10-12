@@ -1,118 +1,155 @@
-import React from 'react';
-import styled from 'styled-components'
-function GoogleCalender(){
-    const Calender = styled.div`
-        --width:70%;
-        --height:80%;
-        width:var(--width);
-        height: var(--height);
-        display: flex;
-        align-content: flex-start;
-        flex-wrap: wrap;
-        border-top: 1px solid #dadce0;
-        border-left: 1px solid #dadce0;
-        box-sizing: border-box;  
-        flex-basis: 80%;
-        @media (max-width: 768px) {
-            flex-basis: 100%;
-        }
-    `
-    const Cell =styled.div`
-        box-sizing: border-box;
-        width:calc(100%/7);
-        height: calc(100%/5);
-        border-right: 1px solid #dadce0;
-        border-bottom: 1px solid #dadce0;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        
-    `
-    const DateSpan=styled.span`
-        font-weight: 600;
-    `
-    return (
-        <>     
-        
-        <Calender>            
-            <Cell>
-                <span className='day'>Sun</span>
-                <DateSpan>28</DateSpan>
-            </Cell>
-            <Cell>
-                <span className='day'>Mon</span>
-                <DateSpan>28</DateSpan>
-            </Cell>
-            <Cell>
-                <span className='day'>Tue</span>
-                <DateSpan>28</DateSpan>
-            </Cell>
-            <Cell>
-                <span className='day'>Wen</span>
-                <DateSpan>28</DateSpan>
-            </Cell>
-            <Cell>
-                <span className='day'>Thu</span>
-                <DateSpan>28</DateSpan>
-            </Cell>
-            <Cell>
-                <span className='day'>Fri</span>
-                <DateSpan>28</DateSpan>
-            </Cell>
-            <Cell>
-                <span className='day'>Sat</span>
-                <DateSpan>28</DateSpan>
-            </Cell>
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 
+let today = new Date();
+var todaysDate = `${String(today.getDate())}-${String(
+  today.getMonth()+1
+)}-${today.getFullYear()}`;
+const Calender = styled.div`
+--width:100%;
+--height:80%;
+width:var(--width);
+height: var(--height);
+display: flex;
+flex-grow:1
+align-content: flex-start;
+flex-wrap: wrap;
+border-top: 1px solid #dadce0;
+border-left: 1px solid #dadce0;
+box-sizing: border-box;  
+@media (max-width: 768px) {
+    flex-basis: 100%;
+}
+`;
+const Cell = styled.div<{ active: boolean }>`
+  box-sizing: border-box;
+  width: calc(100% / 7);
+  height: calc(100% / 5);
+  border-right: 1px solid #dadce0;
+  border-bottom: 1px solid #dadce0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  background: ${(props) => props.active && "#ababffc7"};
+`;
+const DateSpan = styled.span<{ sameMonth: boolean }>`
+  font-weight: 600;
+  color: ${(props) => !props.sameMonth && "#D3D3D3"};
+`;
+function GoogleCalender({ date }: { date: string }) {
+  const [Day, Month, Year] = dateSplit(date);
 
-            <Cell>
-            <DateSpan>28</DateSpan>
-            </Cell>
-            <Cell>
-            <DateSpan>28</DateSpan>
-            </Cell>
-            <Cell>
-            <DateSpan>28</DateSpan>
-            </Cell>
-            <Cell>
-            <DateSpan>28</DateSpan>
-            </Cell>
-            <Cell>
-            <DateSpan>28</DateSpan>
-            </Cell>
-            <Cell>
-            <DateSpan>28</DateSpan>
-            </Cell>
-            <Cell>
-            <DateSpan>28</DateSpan>
-            </Cell>
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const [dates, setDates] = useState<string[]>([]);
 
+  const [currentDate, setCurrentDate] = useState<string>(date);
 
-            <Cell>
-            <DateSpan>28</DateSpan>
-            </Cell>
-            <Cell>
-            <DateSpan>28</DateSpan>
-            </Cell>
-            <Cell>
-            <DateSpan>28</DateSpan>
-            </Cell>
-            <Cell>
-            <DateSpan>28</DateSpan>
-            </Cell>
-            <Cell>
-            <DateSpan>28</DateSpan>
-            </Cell>
-            <Cell>
-            <DateSpan>28</DateSpan>
-            </Cell>
-            <Cell>
-            <DateSpan>28</DateSpan>
-            </Cell>
-        </Calender>
-        </>
-    )
+  const getDaysArray = function(year: number, month: number): string[] {
+    var monthIndex = month - 1;
+    var date = new Date(year, monthIndex, 1);
+    var result = [];
+    while (date.getMonth() == monthIndex) {
+      result.push(
+        `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
+      );
+      date.setDate(date.getDate() + 1);
+    }
+    return result;
+  };
 
+  const lastNDatesOfPrevMonth = function(
+    year: number,
+    month: number,
+    numberOfDates: number
+  ): string[] {
+    var monthIndex = month - 1;
+    var date = new Date(year, monthIndex, 1);
+    var result = [];
+    while (result.length < numberOfDates) {
+      date.setDate(date.getDate() - 1);
+      result.push(
+        `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
+      );
+    }
+    return result.reverse();
+  };
+
+  const firstNDatesOfNextMonth = function(
+    year: number,
+    month: number,
+    numberOfDates: number
+  ): string[] {
+    var monthIndex = month + 1;
+    var date = new Date(year, monthIndex, 1);
+    var result = [];
+    while (result.length < numberOfDates) {
+      result.push(
+        `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
+      );
+      date.setDate(date.getDate() + 1);
+    }
+    return result;
+  };
+
+  const getFirstDay = (year: number, month: number): string => {
+    var monthIndex = month - 1;
+    let date = new Date(year, monthIndex, 1);
+    return days[date.getDay()];
+  };
+
+  function dateSplit(date: string): [number, number, number] {
+    const [day, month, year] = date.split("-").map(Number);
+    return [day, month, year];
+  }
+
+  useEffect(() => {
+    let firstDay = getFirstDay(Year, Month);
+
+    setCurrentDate(date)
+
+    let index = days.findIndex((day) => {
+      return firstDay == day;
+    });
+
+    let daysOfMonth = getDaysArray(Year, Month);
+
+    const dates = [
+      ...lastNDatesOfPrevMonth(Year, Month, index),
+      ...daysOfMonth,
+      ...firstNDatesOfNextMonth(Year, Month, 42 - daysOfMonth.length - index),
+    ];
+
+    setDates(dates);
+  }, [date]);
+  return (
+    <>
+      <Calender role="calender">
+        {dates.map((date, index) => {
+          const [day, month] = dateSplit(date);
+          const [, currentMonth] = dateSplit(currentDate);
+          return (
+            <Cell active={date == todaysDate} key={index} data-testid="cell">
+              {index < 7 && (
+                <span className="day" data-testid="day">
+                  {days[index].substring(0, 3)}
+                </span>
+              )}
+              <DateSpan sameMonth={currentMonth == month}>{day}</DateSpan>
+            </Cell>
+          );
+        })}
+      </Calender>
+    </>
+  );
 }
 
-export default GoogleCalender;
+export default React.memo(GoogleCalender);
