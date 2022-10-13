@@ -5,6 +5,7 @@ let today = new Date();
 var todaysDate = `${String(today.getDate())}-${String(
   today.getMonth() + 1
 )}-${today.getFullYear()}`;
+
 const CalenderStyle = styled.div`
 --width:100%;
 --height:500px;
@@ -41,9 +42,13 @@ const DateSpan = styled.span<{ sameMonth: boolean }>`
 function GoogleCalendar({
   monthInput,
   yearInput,
+  setMonth,
+  setYear,
 }: {
   monthInput: number;
   yearInput: number;
+  setMonth: (value: number) => void;
+  setYear: (value: number) => void;
 }) {
   const days = [
     "Sunday",
@@ -120,13 +125,22 @@ function GoogleCalendar({
     d.setMonth(d.getMonth() - 1);
     setSelectedMonth(d.getMonth() + 1);
     setSelectedYear(d.getFullYear());
+    setMonth(d.getMonth() + 1);
+    setYear(d.getFullYear());
   };
   const goNext = () => {
     var d = new Date(selectedYear, selectedMonth - 1, 1);
     d.setMonth(d.getMonth() + 1);
     setSelectedMonth(d.getMonth() + 1);
     setSelectedYear(d.getFullYear());
+    setMonth(d.getMonth() + 1);
+    setYear(d.getFullYear());
   };
+
+  useEffect(() => {
+    setSelectedYear(yearInput);
+    setSelectedMonth(monthInput);
+  }, [monthInput, yearInput]);
 
   useEffect(() => {
     let firstDay = getFirstDay(selectedYear, selectedMonth);
@@ -148,7 +162,23 @@ function GoogleCalendar({
     ];
 
     setDates(dates);
+
+    window.addEventListener("keydown", handleKey);
+
+    return () => {
+      window.removeEventListener("keydown", handleKey);
+    };
   }, [selectedMonth, selectedYear]);
+
+  const handleKey = (e: KeyboardEvent) => {
+    if (e.key == "ArrowRight") {
+      goNext();
+    }
+
+    if (e.key == "ArrowLeft") {
+      goBack();
+    }
+  };
 
   const wheel = (e: WheelEvent) => {
     if (e.deltaY < 0) {
@@ -178,7 +208,7 @@ function GoogleCalendar({
       <span className="prev" onClick={goBack}>
         &lt;
       </span>
-      <span className="next" onClick={goNext} onWheel={wheel}>
+      <span className="next" onClick={goNext}>
         &gt;
       </span>
     </>

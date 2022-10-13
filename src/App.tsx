@@ -11,24 +11,36 @@ const Content = styled.div`
 
 const AppStyle = styled.div`
   font-family: ${(props) => props.theme.fontFamily};
-  box-sizing:border-box;
+  box-sizing: border-box;
 `;
 export const theme = {
   fontFamily: "Arial, Helvetica, sans-serif",
 };
 
 let today = new Date();
-var todaysDay = today.getDate()
-var todaysMonth = today.getMonth()+1
-var todaysYear = today.getFullYear()
+var todaysDay = today.getDate();
+var todaysMonth = today.getMonth() + 1;
+var todaysYear = today.getFullYear();
 
 function App() {
+  const [month, setMonth] = useState(todaysMonth);
+  const [year, setYear] = useState(todaysYear);
   return (
     <ThemeProvider theme={theme}>
       <AppStyle>
-        <CalendarHeader/>
+        <CalendarHeader
+          month={month}
+          year={year}
+          setMonth={setMonth}
+          setYear={setYear}
+        />
         <Content>
-          <Calendar monthInput={todaysMonth} yearInput={todaysYear}/>
+          <Calendar
+            monthInput={month}
+            yearInput={year}
+            setMonth={setMonth}
+            setYear={setYear}
+          />
         </Content>
       </AppStyle>
     </ThemeProvider>
