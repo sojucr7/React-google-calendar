@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import React, { useEffect, useState } from "react";
 
 let today = new Date();
 var todaysDate = `${String(today.getDate())}-${String(
   today.getMonth()+1
 )}-${today.getFullYear()}`;
-const Calender = styled.div`
+const CalenderStyle = styled.div`
 --width:100%;
 --height:80%;
 width:var(--width);
@@ -37,9 +37,7 @@ const DateSpan = styled.span<{ sameMonth: boolean }>`
   font-weight: 600;
   color: ${(props) => !props.sameMonth && "#D3D3D3"};
 `;
-function GoogleCalender({ date }: { date: string }) {
-  const [Day, Month, Year] = dateSplit(date);
-
+function GoogleCalendar({ Month,Year }: { Month: number,Year:number }) {
   const days = [
     "Sunday",
     "Monday",
@@ -50,8 +48,6 @@ function GoogleCalender({ date }: { date: string }) {
     "Saturday",
   ];
   const [dates, setDates] = useState<string[]>([]);
-
-  const [currentDate, setCurrentDate] = useState<string>(date);
 
   const getDaysArray = function(year: number, month: number): string[] {
     var monthIndex = month - 1;
@@ -114,8 +110,6 @@ function GoogleCalender({ date }: { date: string }) {
   useEffect(() => {
     let firstDay = getFirstDay(Year, Month);
 
-    setCurrentDate(date)
-
     let index = days.findIndex((day) => {
       return firstDay == day;
     });
@@ -129,13 +123,12 @@ function GoogleCalender({ date }: { date: string }) {
     ];
 
     setDates(dates);
-  }, [date]);
+  }, [Month,Year]);
   return (
     <>
-      <Calender role="calender">
+      <CalenderStyle role="calender">
         {dates.map((date, index) => {
-          const [day, month] = dateSplit(date);
-          const [, currentMonth] = dateSplit(currentDate);
+          const [day, localMonth] = dateSplit(date);
           return (
             <Cell active={date == todaysDate} key={index} data-testid="cell">
               {index < 7 && (
@@ -143,13 +136,13 @@ function GoogleCalender({ date }: { date: string }) {
                   {days[index].substring(0, 3)}
                 </span>
               )}
-              <DateSpan sameMonth={currentMonth == month}>{day}</DateSpan>
+              <DateSpan sameMonth={Month == localMonth}>{day}</DateSpan>
             </Cell>
           );
         })}
-      </Calender>
+      </CalenderStyle>
     </>
   );
 }
 
-export default React.memo(GoogleCalender);
+export default React.memo(GoogleCalendar);

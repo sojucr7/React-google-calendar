@@ -10,8 +10,7 @@ gap:1rem;
 border-bottom: 1px solid #dadce0;
 box-sizing:border-box;
 `;
-function CalendarHeader({date,prevHandler,nextHandler}:{
-    date:string,
+function CalendarHeader({prevHandler,nextHandler}:{
     prevHandler:()=>void,
     nextHandler:()=>void
 }){

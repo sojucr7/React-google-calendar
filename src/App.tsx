@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import styled, { ThemeProvider } from "styled-components";
+import logo from "./logo.svg";
+import React, { useState } from "react";
 import Calendar from "./components/Calendar";
 import CalendarHeader from "./components/CalendarHeader";
+import styled, { ThemeProvider } from "styled-components";
 import CalendarSidebar from "./components/CalendarSidebar";
 
 const Content = styled.div`
@@ -15,42 +15,40 @@ const AppStyle = styled.div`
   height: 100vh;
   font-family: ${(props) => props.theme.fontFamily};
 `;
-const theme = {
+export const theme = {
   fontFamily: "Arial, Helvetica, sans-serif",
 };
+
+let today = new Date();
+var todaysDay = today.getDate()
+var todaysMonth = today.getMonth()+1
+var todaysYear = today.getFullYear()
+
 function App() {
-  const [currentDate, setCurrentDate] = useState<string>("01-10-2022");
+  const [month, setMonth] = useState<number>(todaysMonth);
+  const [year, setYear] = useState<number>(todaysYear);
 
   const goBack = () => {
-    setCurrentDate((date) => {
-      const [Day, Month, Year] = date.split("-").map(Number);
-      var d = new Date(Year, Month - 1, Day);
-      d.setMonth(d.getMonth() - 1);
-      let month =
-        d.getMonth() + 1 < 10 ? `0${d.getMonth() + 1}` : d.getMonth() + 1;
-      return `${d.getDate()}-${month}-${d.getFullYear()}`;
-    });
+    var d = new Date(year, month - 1, 1);
+    d.setMonth(d.getMonth() - 1);
+    setMonth(d.getMonth() + 1)
+    setYear(d.getFullYear())
   };
   const goNext = () => {
-    setCurrentDate((date) => {
-      const [Day, Month, Year] = date.split("-").map(Number);
-      var d = new Date(Year, Month - 1, Day);
-      d.setMonth(d.getMonth() + 1);
-      let month =
-        d.getMonth() + 1 < 10 ? `0${d.getMonth() + 1}` : d.getMonth() + 1;
-      return `${d.getDate()}-${month}-${d.getFullYear()}`;
-    });
+    var d = new Date(year, month - 1, 1);
+    d.setMonth(d.getMonth() + 1);
+    setMonth(d.getMonth() + 1)
+    setYear(d.getFullYear())
   };
   return (
     <ThemeProvider theme={theme}>
       <AppStyle>
         <CalendarHeader
-          date={currentDate}
           prevHandler={goBack}
           nextHandler={goNext}
         />
         <Content>
-          <Calendar date={currentDate} />
+          <Calendar Month={month} Year={year} />
         </Content>
       </AppStyle>
     </ThemeProvider>
