@@ -2,26 +2,24 @@ import React from 'react';
 import styled from 'styled-components'
 
 const CalendarHeaderStyle=styled.div`
+justify-content:center;
+margin:20px;
+height:10%;
+`;
+const CalendarLogo=styled.div`
+gap:2rem;
 display: flex;
 justify-content: flex-start;
 align-items: center;
-height: 10%;
-gap:1rem;
-border-bottom: 1px solid #dadce0;
-box-sizing:border-box;
 `;
-function CalendarHeader({prevHandler,nextHandler}:{
-    prevHandler:()=>void,
-    nextHandler:()=>void
-}){
+function CalendarHeader(){
 
     return (
         <CalendarHeaderStyle>
-             <div className='logo'>Calendar</div>
-             <div className='navigation-container'>
-                <span className="prev" onClick={prevHandler}>&lt;</span>
-                <span className="next" onClick={nextHandler}>&gt;</span>
-             </div>
+             <CalendarLogo className='logo'>
+             <img src="/download.png" width="50"/>
+             <h3>Google Calendar</h3>
+             </CalendarLogo>
         </CalendarHeaderStyle>
     )
 

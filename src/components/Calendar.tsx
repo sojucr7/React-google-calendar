@@ -1,13 +1,13 @@
 import styled from "styled-components";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, WheelEvent } from "react";
 
 let today = new Date();
 var todaysDate = `${String(today.getDate())}-${String(
-  today.getMonth()+1
+  today.getMonth() + 1
 )}-${today.getFullYear()}`;
 const CalenderStyle = styled.div`
 --width:100%;
---height:80%;
+--height:500px;
 width:var(--width);
 height: var(--height);
 display: flex;
@@ -17,6 +17,7 @@ flex-wrap: wrap;
 border-top: 1px solid #dadce0;
 border-left: 1px solid #dadce0;
 box-sizing: border-box;  
+position:relative;
 @media (max-width: 768px) {
     flex-basis: 100%;
 }
@@ -37,7 +38,13 @@ const DateSpan = styled.span<{ sameMonth: boolean }>`
   font-weight: 600;
   color: ${(props) => !props.sameMonth && "#D3D3D3"};
 `;
-function GoogleCalendar({ Month,Year }: { Month: number,Year:number }) {
+function GoogleCalendar({
+  monthInput,
+  yearInput,
+}: {
+  monthInput: number;
+  yearInput: number;
+}) {
   const days = [
     "Sunday",
     "Monday",
@@ -48,6 +55,8 @@ function GoogleCalendar({ Month,Year }: { Month: number,Year:number }) {
     "Saturday",
   ];
   const [dates, setDates] = useState<string[]>([]);
+  const [selectedMonth, setSelectedMonth] = useState<number>(monthInput);
+  const [selectedYear, setSelectedYear] = useState<number>(yearInput);
 
   const getDaysArray = function(year: number, month: number): string[] {
     var monthIndex = month - 1;
@@ -106,27 +115,51 @@ function GoogleCalendar({ Month,Year }: { Month: number,Year:number }) {
     const [day, month, year] = date.split("-").map(Number);
     return [day, month, year];
   }
+  const goBack = () => {
+    var d = new Date(selectedYear, selectedMonth - 1, 1);
+    d.setMonth(d.getMonth() - 1);
+    setSelectedMonth(d.getMonth() + 1);
+    setSelectedYear(d.getFullYear());
+  };
+  const goNext = () => {
+    var d = new Date(selectedYear, selectedMonth - 1, 1);
+    d.setMonth(d.getMonth() + 1);
+    setSelectedMonth(d.getMonth() + 1);
+    setSelectedYear(d.getFullYear());
+  };
 
   useEffect(() => {
-    let firstDay = getFirstDay(Year, Month);
+    let firstDay = getFirstDay(selectedYear, selectedMonth);
 
     let index = days.findIndex((day) => {
       return firstDay == day;
     });
 
-    let daysOfMonth = getDaysArray(Year, Month);
+    let daysOfMonth = getDaysArray(selectedYear, selectedMonth);
 
     const dates = [
-      ...lastNDatesOfPrevMonth(Year, Month, index),
+      ...lastNDatesOfPrevMonth(selectedYear, selectedMonth, index),
       ...daysOfMonth,
-      ...firstNDatesOfNextMonth(Year, Month, 42 - daysOfMonth.length - index),
+      ...firstNDatesOfNextMonth(
+        selectedYear,
+        selectedMonth,
+        42 - daysOfMonth.length - index
+      ),
     ];
 
     setDates(dates);
-  }, [Month,Year]);
+  }, [selectedMonth, selectedYear]);
+
+  const wheel = (e: WheelEvent) => {
+    if (e.deltaY < 0) {
+      goNext();
+    } else if (e.deltaY > 0) {
+      goBack();
+    }
+  };
   return (
     <>
-      <CalenderStyle role="calender">
+      <CalenderStyle role="calender" onWheel={wheel}>
         {dates.map((date, index) => {
           const [day, localMonth] = dateSplit(date);
           return (
@@ -136,11 +169,18 @@ function GoogleCalendar({ Month,Year }: { Month: number,Year:number }) {
                   {days[index].substring(0, 3)}
                 </span>
               )}
-              <DateSpan sameMonth={Month == localMonth}>{day}</DateSpan>
+              <DateSpan sameMonth={selectedMonth == localMonth}>{day}</DateSpan>
             </Cell>
           );
         })}
       </CalenderStyle>
+
+      <span className="prev" onClick={goBack}>
+        &lt;
+      </span>
+      <span className="next" onClick={goNext} onWheel={wheel}>
+        &gt;
+      </span>
     </>
   );
 }
