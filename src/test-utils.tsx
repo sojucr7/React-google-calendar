@@ -16,5 +16,6 @@ const customRender=(
     options?:Omit<RenderOptions,'wrapper'>,
 )=>render(ui,{wrapper:AllTheProvider,...options})
 
+
 export * from '@testing-library/react'
 export {customRender as render}

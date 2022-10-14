@@ -47,8 +47,8 @@ function GoogleCalendar({
 }: {
   monthInput: number;
   yearInput: number;
-  setMonth: (value: number) => void;
-  setYear: (value: number) => void;
+  setMonth?: (value: number) => void;
+  setYear?: (value: number) => void;
 }) {
   const days = [
     "Sunday",
@@ -125,16 +125,24 @@ function GoogleCalendar({
     d.setMonth(d.getMonth() - 1);
     setSelectedMonth(d.getMonth() + 1);
     setSelectedYear(d.getFullYear());
-    setMonth(d.getMonth() + 1);
-    setYear(d.getFullYear());
+    if (typeof setMonth == "function") {
+      setMonth(d.getMonth() + 1);
+    }
+    if (typeof setYear == "function") {
+      setYear(d.getFullYear());
+    }
   };
   const goNext = () => {
     var d = new Date(selectedYear, selectedMonth - 1, 1);
     d.setMonth(d.getMonth() + 1);
     setSelectedMonth(d.getMonth() + 1);
     setSelectedYear(d.getFullYear());
-    setMonth(d.getMonth() + 1);
-    setYear(d.getFullYear());
+    if (typeof setMonth == "function") {
+      setMonth(d.getMonth() + 1);
+    }
+    if (typeof setYear == "function") {
+      setYear(d.getFullYear());
+    }
   };
 
   useEffect(() => {
@@ -181,9 +189,10 @@ function GoogleCalendar({
   };
 
   const wheel = (e: WheelEvent) => {
-    if (e.deltaY < 0) {
+    console.log(e.deltaY)
+    if (e.deltaY <= -125) {
       goNext();
-    } else if (e.deltaY > 0) {
+    } else if (e.deltaY >= 125) {
       goBack();
     }
   };
@@ -199,16 +208,16 @@ function GoogleCalendar({
                   {days[index].substring(0, 3)}
                 </span>
               )}
-              <DateSpan sameMonth={selectedMonth == localMonth}>{day}</DateSpan>
+              <DateSpan sameMonth={selectedMonth == localMonth} data-testid="date">{day}</DateSpan>
             </Cell>
           );
         })}
       </CalenderStyle>
 
-      <span className="prev" onClick={goBack}>
+      <span className="prev" onClick={goBack} data-testid="backward">
         &lt;
       </span>
-      <span className="next" onClick={goNext}>
+      <span className="next" onClick={goNext} data-testid="forward">
         &gt;
       </span>
     </>
