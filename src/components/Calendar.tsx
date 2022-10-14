@@ -189,10 +189,9 @@ function GoogleCalendar({
   };
 
   const wheel = (e: WheelEvent) => {
-    console.log(e.deltaY)
-    if (e.deltaY <= -125) {
+    if (e.deltaY < 0) {
       goNext();
-    } else if (e.deltaY >= 125) {
+    } else if (e.deltaY >0) {
       goBack();
     }
   };
