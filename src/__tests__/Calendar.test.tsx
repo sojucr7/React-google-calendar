@@ -1,12 +1,13 @@
 import React from 'react'
 import {render,screen,fireEvent} from '../test-utils';
+import App from "../App";
 import Calendar from "../components/Calendar";
 import ReactTestUtils from 'react-dom/test-utils'; 
-describe("<GoogleCalendar/>",()=>{
+describe("<Calendar/>",()=>{
 
-    test('it should render the calender component', () => {
+    test('it should render the calendar component', () => {
         render(<Calendar monthInput={9} yearInput={2022} />);        
-        expect(screen.getByRole("calender")).toBeInTheDocument();
+        expect(screen.getByRole("calendar")).toBeInTheDocument();
     });
     
     test('it should render the dates correctly', () => {
@@ -48,7 +49,7 @@ describe("<GoogleCalendar/>",()=>{
 
     test('it should navigate Month Correctly on MOUSE WHEELS', async () => {
         render(<Calendar  monthInput={10} yearInput={2022}/>);
-        ReactTestUtils.Simulate.wheel(screen.getByRole("calender"), { deltaY: -500 });
+        ReactTestUtils.Simulate.wheel(screen.getByRole("calendar"), { deltaY: -500 });
         await new Promise((r) => setTimeout(r, 500));
         let cells2=screen.getAllByTestId("date");  
         expect(cells2[0]).toHaveTextContent('30');

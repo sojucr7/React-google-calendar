@@ -40,6 +40,9 @@ function App() {
             yearInput={year}
             setMonth={setMonth}
             setYear={setYear}
+            onSelected={(date)=>{
+              console.log(date)
+            }}
           />
         </Content>
       </AppStyle>

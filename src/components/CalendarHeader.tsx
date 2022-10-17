@@ -62,7 +62,6 @@ function CalendarHeader({
           <option
             key={`year-${index}`}
             value={localYear}
-            selected={year == localYear}
           >
             {localYear}
           </option>
@@ -78,7 +77,6 @@ function CalendarHeader({
           <option
             key={`month-${index}`}
             value={index + 1}
-            selected={month == index + 1}
           >
             {localMonth}
           </option>
@@ -96,6 +94,8 @@ function CalendarHeader({
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
             setMonth(Number(e.currentTarget.value))
           }
+          value={month}
+          data-testid="calendar-month"
         >
           {monthList}
         </select>
@@ -103,6 +103,8 @@ function CalendarHeader({
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
             setYear(Number(e.currentTarget.value))
           }
+          data-testid="calendar-year"
+          value={year}
         >
           {yearList}
         </select>

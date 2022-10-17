@@ -6,7 +6,7 @@ var todaysDate = `${String(today.getDate())}-${String(
   today.getMonth() + 1
 )}-${today.getFullYear()}`;
 
-const CalenderStyle = styled.div`
+const CalendarStyle = styled.div`
 --width:100%;
 --height:500px;
 width:var(--width);
@@ -44,11 +44,13 @@ function GoogleCalendar({
   yearInput,
   setMonth,
   setYear,
+  onSelected,
 }: {
   monthInput: number;
   yearInput: number;
   setMonth?: (value: number) => void;
   setYear?: (value: number) => void;
+  onSelected?: (value: string) => void;
 }) {
   const days = [
     "Sunday",
@@ -191,27 +193,32 @@ function GoogleCalendar({
   const wheel = (e: WheelEvent) => {
     if (e.deltaY < 0) {
       goNext();
-    } else if (e.deltaY >0) {
+    } else if (e.deltaY > 0) {
       goBack();
     }
   };
   return (
     <>
-      <CalenderStyle role="calender" onWheel={wheel}>
+      <CalendarStyle role="calendar" onWheel={wheel}>
         {dates.map((date, index) => {
           const [day, localMonth] = dateSplit(date);
           return (
-            <Cell active={date == todaysDate} key={index} data-testid="cell">
+            <Cell active={date == todaysDate} key={index} data-testid="cell" onClick={()=>typeof onSelected == "function" && onSelected(date)}>
               {index < 7 && (
                 <span className="day" data-testid="day">
                   {days[index].substring(0, 3)}
                 </span>
               )}
-              <DateSpan sameMonth={selectedMonth == localMonth} data-testid="date">{day}</DateSpan>
+              <DateSpan
+                sameMonth={selectedMonth == localMonth}
+                data-testid="date"
+              >
+                {day}
+              </DateSpan>
             </Cell>
           );
         })}
-      </CalenderStyle>
+      </CalendarStyle>
 
       <span className="prev" onClick={goBack} data-testid="backward">
         &lt;
