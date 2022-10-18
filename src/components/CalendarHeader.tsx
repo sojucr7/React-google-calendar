@@ -88,7 +88,7 @@ function CalendarHeader({
   return (
     <CalendarHeaderStyle>
       <CalendarLogo className="logo">
-        <img src="/download.png" width="50" />
+        <img src="/download.png" width="50" data-testid="logo"/>
         <h3>Google Calendar</h3>
         <select
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>

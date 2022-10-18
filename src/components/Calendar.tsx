@@ -23,7 +23,7 @@ position:relative;
     flex-basis: 100%;
 }
 `;
-const Cell = styled.div<{ active: boolean }>`
+const Cell = styled.div<{ selected: boolean }>`
   box-sizing: border-box;
   width: calc(100% / 7);
   height: calc(100% / 5);
@@ -33,24 +33,35 @@ const Cell = styled.div<{ active: boolean }>`
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  background: ${(props) => props.active && "#ababffc7"};
+  &:hover {
+    background: #1515efc7;
+  }
+  color:black;
+  background: ${(props) => props.selected && "#84c0de"};
 `;
 const DateSpan = styled.span<{ sameMonth: boolean }>`
   font-weight: 600;
   color: ${(props) => !props.sameMonth && "#D3D3D3"};
 `;
+
+const TodaySpan=styled.span`
+background:#e92424;
+color:white;
+`;
 function GoogleCalendar({
   monthInput,
   yearInput,
+  activeDates,
   setMonth,
   setYear,
-  onSelected,
+  onDateSelected,
 }: {
   monthInput: number;
   yearInput: number;
+  activeDates?:string[]
   setMonth?: (value: number) => void;
   setYear?: (value: number) => void;
-  onSelected?: (value: string) => void;
+  onDateSelected?: (value: string) => void;
 }) {
   const days = [
     "Sunday",
@@ -203,7 +214,7 @@ function GoogleCalendar({
         {dates.map((date, index) => {
           const [day, localMonth] = dateSplit(date);
           return (
-            <Cell active={date == todaysDate} key={index} data-testid="cell" onClick={()=>typeof onSelected == "function" && onSelected(date)}>
+            <Cell selected={!!activeDates && activeDates.includes(date)} key={index} data-testid="cell" onClick={()=>typeof onDateSelected == "function" && onDateSelected(date)}>
               {index < 7 && (
                 <span className="day" data-testid="day">
                   {days[index].substring(0, 3)}
@@ -215,6 +226,9 @@ function GoogleCalendar({
               >
                 {day}
               </DateSpan>
+              {date == todaysDate &&<TodaySpan className="today" data-testid="today">
+                  Today
+              </TodaySpan>}
             </Cell>
           );
         })}

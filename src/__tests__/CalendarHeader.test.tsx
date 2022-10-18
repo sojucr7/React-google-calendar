@@ -27,4 +27,14 @@ describe("<Calendar Header/>",()=>{
         expect(setYear).toHaveBeenCalledWith(2023);
         expect(setYear).toHaveBeenCalled();    
     });
+
+    test('it should render Logo image', async () => {
+        const setMonth = jest.fn();
+        const setYear = jest.fn();
+        render(<CalendarHeader  month={10} year={2022} setMonth={setMonth}
+            setYear={setYear}/>);
+        const testImage =screen.getByTestId("logo")
+        expect(testImage).toHaveAttribute('src', '/download.png');
+    });
+    //logo
 })

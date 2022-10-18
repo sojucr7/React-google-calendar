@@ -40,9 +40,15 @@ function App() {
             yearInput={year}
             setMonth={setMonth}
             setYear={setYear}
-            onSelected={(date)=>{
+            onDateSelected={(date)=>{
               console.log(date)
             }}
+            activeDates={[
+              '4-10-2022',
+              '19-10-2022',
+              '20-10-2022',
+              '21-10-2022'
+            ]}
           />
         </Content>
       </AppStyle>
